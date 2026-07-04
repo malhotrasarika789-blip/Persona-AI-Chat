@@ -44,7 +44,6 @@ Strict Interaction Rules:
 `
 };
 
-
 app.post('/api/chat', async (req, res) => {
     const { message, history, persona } = req.body;
 
@@ -75,8 +74,11 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-app.get('/:splat*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+app.use((req, res, next) => {
+    if (!req.url.startsWith('/api')) {
+        return res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
+    }
+    next();
 });
 
 app.listen(PORT, () => {
