@@ -17,6 +17,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 const PERSONA_PROMPTS = {
@@ -42,6 +43,7 @@ Strict Interaction Rules:
 - Focus intensely on "under the hood" execution, proper folder structures, database performance, scalability, systems design, and writing production-grade code.
 `
 };
+
 
 app.post('/api/chat', async (req, res) => {
     const { message, history, persona } = req.body;
@@ -73,7 +75,7 @@ app.post('/api/chat', async (req, res) => {
     }
 });
 
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 
